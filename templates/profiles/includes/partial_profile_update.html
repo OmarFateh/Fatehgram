@@ -1,0 +1,94 @@
+<section class="user-profile">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="post-content">
+                    <div class="author-post text-center">
+                        <img class="img-fluid img-circle" src="{{ profile.photo.url }}" alt="Image">
+                    </div><!-- /author -->
+                </div><!-- /.post-content -->
+            </div><!-- /col-sm-12 -->
+        </div>
+        <!--/ row-->
+    </div>
+    <!--/ container -->
+</section>
+<!--/ profile -->
+
+<section class="details">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="details-box">
+                    <div class="content-box">
+                        <h4>{{ profile.user.username }} <i class="fa fa-check"></i></h4>
+                        {% if profile.user.first_name or profile.user.last_name %}
+                        <p class="mb-5">
+                            {% if profile.user.first_name %}
+                            {{ profile.user.first_name }}
+                            {% endif %}
+                            {% if profile.user.last_name %}
+                            {{ profile.user.last_name }}
+                            {% endif %}
+                        </p>
+                        {% endif %}
+                        {% if profile.bio %}
+                        <p class="mb-5">{{ profile.bio }}</p>
+                        {% endif %}
+                        {% if profile.website %}
+                        <a href='{{ profile.website }}' target="_blank" class="text-primary"><small><span>{{ profile.website }}</span></small></a>
+                        {% endif %}
+                        <!-- social media  -->
+                        {% if profile.facebook or profile.twitter or profile.instagram %}
+                        <div class="col-12 d-flex mt-10">
+                            {% if profile.facebook %}
+                            <a title="facebook" href="{{ profile.facebook }}" target="_blank"
+                                class=" waves-effect waves-block facebook"><i class="fab fa-facebook-f"></i></a>
+                            {% endif %}
+                            {% if profile.twitter %}
+                            <a title="twitter" href="{{ profile.twitter }}" target="_blank"
+                                class=" waves-effect waves-block twitter"><i class="fab fa-twitter"></i></a>
+                            {% endif %}
+                            {% if profile.instagram %}
+                            <a title="instagram" href="{{ profile.instagram }}" target="_blank"
+                                class=" waves-effect waves-block instagram"><i class="fab fa-instagram"></i></a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!--/ media -->
+                    <div class="profile-navbar">
+                        {% include 'profiles/includes/partial_profile_navbar.html' %}
+                    </div>
+                    <div>
+                        <div class="follow-box">
+                            {% if request.user == profile.user %}
+                            <div>
+                                <button type="button"
+                                    class="kafe-btn kafe-btn-mint edit-profile"
+                                    data-href='{{ profile.get_edit_absolute_url }}'>Edit Profile
+                                </button>
+                            </div>
+                            {% else %}
+                            <button type="button" class="follow kafe-btn kafe-btn-mint"
+                                data-href='{{ profile.get_api_follow_url }}'>
+                                {% if request.user.userprofile in profile.user.followers.all %}
+                                    <span class='follow-text'>Unfollow</span>
+                                {% elif is_requested %}
+                                    <span class='follow-text'>Requested</span>
+                                {% else %}
+                                    <span class='follow-text'>Follow</span>
+                                {% endif %}
+                            </button>
+                            {% endif %}
+                        </div>    
+                    </div>
+                    <!--/ dropdown -->
+                </div>
+            </div>
+            <!--/ details-box -->
+        </div>
+    </div>
+    <!--/ container -->
+</section>
+<!--/ profile -->

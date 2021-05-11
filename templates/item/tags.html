@@ -1,0 +1,56 @@
+{% load notification_tags %}
+
+<div class="col-lg-8 col-lg-offset-2">
+    
+    <div class="followers-box full-width">
+        
+        <div class="followers-list position-relative">
+            <h4 class="modal-title" id="myModalLabel">Tagged</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <span class='close-modal' aria-hidden="true">×</span><span class="sr-only">Close</span>
+            </button>
+            {% for tag in tags %}
+            <div class="followers-body">
+                <a href='{{ tag.get_absolute_url }}'>
+                    <img class="img-responsive img-circle" src="{{ tag.photo.url }}" alt="">
+                    <div class="name-box">
+                        <h4>{{ tag.user.username }}</h4>
+                        {% if tag.user.first_name or tag.user.last_name%}
+                        <span>
+                            {% if tag.user.first_name %}
+                                {{ tag.user.first_name }}
+                            {% endif %}    
+                            {% if tag.user.last_name %} 
+                                {{ tag.user.last_name }}
+                            {% endif %}
+                        </span>
+                        {% endif %}
+                        <!--/ tags-base -->
+                    </div>
+                </a>    
+                <!--/ name-box -->
+
+                <span>
+                    {% if tag.user != request.user %}
+                    <button type="button" class="modal-follow kafe-btn kafe-btn-mint-small"
+                        data-href='{{ tag.get_api_follow_url }}'> 
+                        {% if tag.user in request.user.userprofile.following.all %} 
+                            <span class='follow-text'>Unfollow</span>
+                            {% elif request.user.userprofile|is_requested:tag %}
+                            <span class='follow-text'>Requested</span>       
+                        {% else %}
+                            <span class='follow-text'>Follow</span>
+                        {% endif %}
+                    </button>
+                    {% endif %}
+                </span>
+            </div>
+            <!--/ tags-body -->
+            {% endfor %}
+
+        </div>
+        <!--tags-list end-->
+    </div>
+
+</div>
+

@@ -1,0 +1,7 @@
+{% if item.tags.count %}
+<div class="explore-top-tags" data-href='{{ item.get_tags_absolute_url }}'>
+    <div class="item-tags">
+        <i class="fas fa-user"></i>
+    </div>
+</div>
+{% endif %}

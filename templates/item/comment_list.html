@@ -1,0 +1,38 @@
+{% load crispy_forms_tags %}
+{% load item_tags %}
+
+<!-- caption  -->
+<div class='item_caption'>
+    {% include 'item/item_caption.html' %}
+</div>
+
+<div class='partial_comment_list'>
+    {% include 'item/partial_comment_list.html' %}
+</div>
+
+<!-- Comment edit Modal -->
+<div class="modal fade modal-edit-comment" id="modal-edit-comment">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+        </div>
+    </div>
+</div>
+
+<!-- Comment delete Modal -->
+<div class="modal fade modal-delete-comment" id="modal-delete-comment">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<!-- Comment likes Modal -->
+<div class="modal fade" id="modal-likes-comment">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>

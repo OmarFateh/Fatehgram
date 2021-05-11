@@ -1,0 +1,86 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">×</span></button>
+    <h4 class="modal-title" id="myModalLabel">Edit Profile</h4>
+</div>
+<form id="updateProfile" method="POST" action="{{ profile.get_edit_absolute_url }}" data-validate-username-url="{% url 'accounts:js-validate-username' %}"
+    data-validate-email-url="{% url 'accounts:js-validate-email' %}">
+    {% csrf_token %}
+    <div class="modal-body">
+        <input class="form-control" id="form-id" type="hidden" name="formId" />
+        <div class="js-validate-username-error" role="alert">
+        </div>
+        <div class="js-validate-email-error" role="alert">
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ user_form.username.label }}</strong><span>*</span></div>
+            {{ user_form.username }}
+            <div class="js-validate-username-error error-message" role="alert" style="display: none;">
+            </div>
+        </div>
+        <!-- Display username error message -->
+        {% if user_form.username.errors %}
+            {% for error in user_form.username.errors %}
+            <p class="text-align-left"><strong class="text-danger">{{ error|escape }}</strong></p>
+            {% endfor %}
+        {% endif %}
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ user_form.first_name.label }}</strong></div>
+            {{ user_form.first_name }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ user_form.last_name.label }}</strong></div>
+            {{ user_form.last_name }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ user_form.email.label }}</strong><span>*</span></div>
+            {{ user_form.email }}
+            <div class="js-validate-email-error error-message" role="alert" style="display: none;">
+            </div>
+        </div>
+        <!-- Display email error message -->
+        {% if user_form.email.errors %}
+            {% for error in user_form.email.errors %}
+            <p class="text-align-left"><strong class="text-danger">{{ error|escape }}</strong></p>
+            {% endfor %}
+        {% endif %}
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ profile_form.photo.label }}</strong></div>
+            <span>Currently: </span><a href="{{ profile_form.photo.value.url }}">{{ profile_form.photo.value }}</a><br/>
+            <span>Change: </span>{{ profile_form.photo }}
+        </div>
+        <!-- Display photo error message -->
+        {% if profile_form.photo.errors %}
+            {% for error in profile_form.photo.errors %}
+            <p class="text-align-left"><strong class="text-danger">{{ error|escape }}</strong></p>
+            {% endfor %}
+        {% endif %}
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ profile_form.bio.label }}</strong></div>
+            {{ profile_form.bio }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ profile_form.facebook.label }}</strong></div>
+            {{ profile_form.facebook }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ profile_form.twitter.label }}</strong></div>
+            {{ profile_form.twitter }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ profile_form.instagram.label }}</strong></div>
+            {{ profile_form.instagram }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ profile_form.website.label }}</strong></div>
+            {{ profile_form.website }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ profile_form.private_account.label }}</strong> {{ profile_form.private_account }}</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="submit-btn">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    </div>
+</form>

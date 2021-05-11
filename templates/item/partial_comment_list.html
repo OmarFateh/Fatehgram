@@ -1,0 +1,165 @@
+{% load crispy_forms_tags %}
+{% load item_tags %}
+
+<!-- comments list  -->
+{% for comment in item.parent_comments %}
+<li class='comment-body'>
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="comment-img d-flex align-items-center">
+            <div class="h-100">
+                <img src="{{ comment.owner.userprofile.photo.url }}" class="img-responsive img-circle mr-2"
+                    alt="Image" />
+            </div>
+            <strong class="d-flex align-items-center py-0 line-height-1"><a
+                    href="{{ comment.owner.userprofile.get_absolute_url }}">{{ comment.owner }}</a></strong>
+        </div>
+
+        <!-- like -->
+        <div class="d-flex align-items-center">
+
+            <!-- dropdown -->
+            {% if comment.owner == request.user %}
+            <div class="dropdown show">
+                <button class="btn btn-secondary comment-dropdown btn-flat btn-flat-icon btn-link dropdown-toggle py-0 px-0" type="button"
+                    data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    <em class="fa fa-ellipsis-h"></em>
+                </button>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <button type="button" class="dropdown-item edit-comment"
+                        data-href='{{ comment.get_edit_absolute_url }}'>Edit
+                    </button>
+                    <button type="button" class="dropdown-item delete-comment"
+                        data-href='{{ comment.get_delete_absolute_url }}'>Delete
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+
+            <button type="button" class="comment-like btn btn-link py-0 px-0 ml-10"
+                data-href='{{ comment.get_api_comment_like_url }}' value='{{ comment.id }}'>
+                {% if request.user in comment.likes.all %}
+                <i class="fa fa-heart"></i>
+                {% else %}
+                <i class="far fa-heart"></i>
+                {% endif %}
+            </button>
+
+        </div>
+    </div>
+    
+    <div class="comment-text">
+        <p>{{ comment.content }}</p>
+        <span class="date sub-text">{{ comment.created_at|timesince|rounded_timesince_min:',' }}</span>
+        
+        <button type="button" class="modal-comment-like modal-comment-like{{ comment.id }} btn btn-link py-0 px-0"
+        {% if not comment.likes.count %}
+        style="display: none;"
+        {% endif %}   
+        data-href='{{ comment.get_likes_absolute_url }}'>
+            <span class="comment-like-count">{{ comment.likes.count }}
+                like{{ comment.likes.count|pluralize }} 
+            </span>
+        </button>
+        
+        <span class="reply-btn-form">
+            <button type="button" class="btn-reply-form btn btn-link p-0">Reply</button>
+        </span>
+        {% if comment.replies.count %}
+        <div class="reply-btn">
+            <button type="button" class="btn-reply replyHidden btn btn-link pl-0"
+                value='{{ comment.replies.count }}'>View replies
+                ({{ comment.replies.count }}) </button>
+        </div>
+        {% endif %}
+    </div>
+</li>
+
+<div class='comment-reply' style='display:none;'>
+    <!-- Start reply-list -->
+    {% for reply in comment.replies.all %}
+    <li class='comment-body pl-25'>
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="comment-img d-flex align-items-center">
+                <div class="h-100">
+                    <img src="{{ reply.owner.userprofile.photo.url }}" class="img-responsive img-circle" alt="Image" />
+                </div>
+                <strong class="d-flex align-items-center py-0 line-height-1">
+                    <a href="{{ reply.owner.userprofile.get_absolute_url }}">{{ reply.owner }}</a>
+                </strong>
+            </div>
+            <!-- like -->
+            <div class="d-flex align-items-center">
+
+                <!-- dropdown -->
+                {% if reply.owner == request.user %}
+                <div class="dropdown show">
+                    <button class="btn btn-secondary comment-dropdown btn-flat btn-flat-icon btn-link dropdown-toggle py-0 px-0" type="button"
+                        data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                        <em class="fa fa-ellipsis-h"></em>
+                    </button>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <button type="button" class="dropdown-item edit-comment"
+                            data-href='{{ reply.get_edit_absolute_url }}'>Edit
+                        </button>
+                        <button type="button" class="dropdown-item delete-comment"
+                            data-href='{{ reply.get_delete_absolute_url }}'>Delete
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+
+                <button type="button" class="comment-like btn btn-link py-0 px-0 ml-10"
+                    data-href='{{ reply.get_api_comment_like_url }}' value='{{ reply.id }}'>
+                    {% if request.user in reply.likes.all %}
+                    <i class="fa fa-heart"></i>
+                    {% else %}
+                    <i class="far fa-heart"></i>
+                    {% endif %}
+                </button>
+
+            </div>
+        </div>
+
+        <div class="comment-text">
+            <p class="comment">{{ reply.content }}</p>
+            <span class="date sub-text">{{ reply.created_at|timesince|rounded_timesince_min:',' }}</span>
+            {% if reply.likes.count %}
+            <button type="button" class="modal-comment-like btn btn-link py-0 px-0"
+                data-href='{{ reply.get_likes_absolute_url }}'>
+                <span class="comment-like-count{{ reply.id }}">{{ reply.likes.count }}
+                    like{{ reply.likes.count|pluralize }}
+                </span>
+            </button>
+            {% endif %}
+        </div>
+        <!-- End reply-list -->
+    </li>
+    {% endfor %}
+</div>
+<div class='comment-reply-form' style='display:none;'>
+    <!-- Start add reply-form -->
+    {% if not item.restrict_comment %}
+    <div class="reply-form">
+        <form class="comment_form" action="." id='reply-form' method='POST'>
+            {% csrf_token %}
+            <input type='hidden' name='item_id' value='{{ item.id }}'>
+            <input type='hidden' name='comment_id' value='{{ comment.id }}'>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        {{ comment_form|crispy }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default post-btn">Reply</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+    <!-- End add reply-form -->
+</div>
+
+{% endfor %}

@@ -1,0 +1,54 @@
+{% load notification_tags %}
+
+<div class="col-lg-8 col-lg-offset-2">
+    <div class="followers-box full-width">
+        <div class="followers-list position-relative">
+            <h4 class="modal-title" id="myModalLabel">Likes</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <span class='close-modal' aria-hidden="true">×</span><span class="sr-only">Close</span>
+            </button>
+            {% for user_obj in likes %}
+            <div class="followers-body">
+                <a href='{{ user_obj.userprofile.get_absolute_url }}'>
+                    <img class="img-responsive img-circle" src="{{ user_obj.userprofile.photo.url }}" alt="">
+                    <div class="name-box">
+                        <h4>{{ user_obj.username }}</h4>
+                        {% if user_obj.first_name or user_obj.last_name %}
+                        <span>
+                            {% if user_obj.first_name %}
+                                {{ user_obj.first_name }}
+                            {% endif %}    
+                            {% if user_obj.last_name %} 
+                                {{ user_obj.last_name }}
+                            {% endif %}
+                        </span>
+                        {% endif %}
+                        <!--/ likes-base -->
+                    </div>
+                </a>    
+                <!--/ name-box -->
+
+                <span>
+                    {% if user_obj != request.user %}
+                    <button type="button" class="modal-follow kafe-btn kafe-btn-mint-small"
+                        data-href='{{ user_obj.userprofile.get_api_follow_url }}'> 
+                        {% if user_obj in request.user.userprofile.following.all %} 
+                            <span class='follow-text'>Unfollow</span>
+                            {% elif request.user.userprofile|is_requested:user_obj.userprofile %}
+                            <span class='follow-text'>Requested</span>       
+                        {% else %}
+                            <span class='follow-text'>Follow</span>
+                        {% endif %}
+                    </button>
+                    {% endif %}
+                </span>
+            </div>
+            <!--/ likes-body -->
+            {% endfor %}
+
+        </div>
+        <!--likes-list end-->
+    </div>
+
+</div>
+

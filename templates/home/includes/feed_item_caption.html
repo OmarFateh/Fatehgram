@@ -1,0 +1,21 @@
+{% load item_tags %}
+
+<!-- caption  -->
+<div>
+    <div class="feed-caption-user d-flex align-items-center">
+        <strong><a href="{{ item.owner.userprofile.get_absolute_url }}">{{ item.owner }}</a></strong>
+    </div>
+    
+    <div class="feed-caption">
+        {% if item.caption %}
+            <p class="pl-10">{{ item.caption }}</p>
+        {% endif %} 
+        <div class='line-height-1'>
+            {% if item.hashtags.all %}
+                {% for hashtag in item.hashtags.all %}
+                    <a href='{{ hashtag.get_absolute_url }}' class="hashtag">#{{ hashtag }}</a>
+                {% endfor %}
+            {% endif %}      
+        </div>   
+    </div>
+</div>

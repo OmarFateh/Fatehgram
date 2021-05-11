@@ -1,0 +1,56 @@
+{% load notification_tags %}
+
+<div class="col-lg-8 col-lg-offset-2">
+    <div class="followers-box full-width">
+        <div class="followers-list position-relative">
+            <h4 class="modal-title" id="myModalLabel">Followers</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                <span class='close-modal' aria-hidden="true">×</span><span class="sr-only">Close</span>
+            </button>
+            {% for follower in followers %}
+            <div class="followers-body">
+                <a href='{{ follower.get_absolute_url }}'>
+                    <img class="img-responsive img-circle" src="{{ follower.photo.url }}" alt="">
+                    <div class="name-box">
+                        <h4>{{ follower.user.username }}</h4>
+                        {% if follower.user.first_name or follower.user.last_name %}
+                        <span>
+                            {% if follower.user.first_name %}
+                                {{ follower.user.first_name }}
+                            {% endif %}    
+                            {% if follower.user.last_name %} 
+                                {{ follower.user.last_name }}
+                            {% endif %}
+                        </span>
+                        {% endif %}
+                        <!--/ followers-base -->
+                    </div>
+                </a>     
+                <!--/ name-box -->
+                <span>
+                    {% if follower.user != request.user %}
+                    <button type="button" class="modal-follow kafe-btn kafe-btn-mint-small"
+                        data-href='{{ follower.get_api_follow_url }}'> 
+                        {% if follower.user in request.user.userprofile.following.all %} 
+                            <span class='follow-text'>Unfollow</span>
+                            {% elif request.user.userprofile|is_requested:follower %}
+                            <span class='follow-text'>Requested</span>       
+                        {% else %}
+                            <span class='follow-text'>Follow</span>
+                        {% endif %}
+                    </button>
+                    {% endif %}
+                </span>
+            </div>
+            <!--/ followers-body -->
+            {% empty %}
+            <div class="empty-state">
+                <i class="fas fa-exclamation-triangle empty-state-icon"></i>
+                <p class="empty-state-text">You don't have any followers!</p>
+            </div>
+            {% endfor %}
+        </div>
+        <!--followers-list end-->
+    </div>
+</div>
+

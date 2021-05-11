@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load item_tags %}
+
+{% block title %}
+    <title>{{ hashtag }}</title>
+{% endblock title %}
+
+{% block content %}
+
+<!-- ==============================================
+Navigation Section
+=============================================== -->
+
+{% include 'navigation.html' %}
+
+<!-- ==============================================
+Navbar Second Section
+=============================================== -->
+
+{% include 'navbar.html' with nav_home='dark-black' nav_explore='mint-green' nav_upload='clean-black' nav_profile='dark-black' %}
+
+<!-- ==============================================
+News Feed Section
+=============================================== -->
+<section class="newsfeed">
+    <div class="container">
+        <div class="row">
+            {% for item in items %}
+            <div class="col-lg-4">
+                <a href='{{ item.get_absolute_url }}'>
+                    <div class="explorebox">
+                        <img class="w-100 h-100" src="{{ item.image.url }}" alt="Image">
+                        <!-- style="background: linear-gradient( rgba(34,34,34,0.2), rgba(34,34,34,0.2)), url('{{ item.image.url }}') no-repeat;"> -->
+                        <div class="explore-top">
+                            <div class="explore-like">
+                                <i class="fa fa-heart"></i>
+                                <span>{{ item.likes.count }}</span>
+                            </div>
+                            <div class="explore-circle pull-right">
+                                <i class="fa fa-comments"></i>
+                                {% include 'item/comment_count.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+            <!--/ col-lg-4 -->
+        </div>
+        <!--/ row -->
+    </div>
+    <!--/ container -->
+</section>
+<!--/ newsfeed -->
+
+{% endblock content %}

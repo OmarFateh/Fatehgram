@@ -1,0 +1,38 @@
+<!-- ==============================================
+News Feed Section
+=============================================== -->
+<section class="newsfeed">
+    <div class="container">
+        <div class="row">
+            {% for item in items %}
+            <div class="col-lg-4">
+                <a href='{{ item.get_absolute_url }}'>
+                    <div class="explorebox">
+                        <img class="w-100 h-100" src="{{ item.image.url }}" alt="Image">
+                        <div class="explore-top">
+                            <div class="explore-like">
+                                <i class="fa fa-heart"></i>
+                                <span>{{ item.likes.count }}</span>
+                            </div>
+                            <div class="explore-circle pull-right">
+                                <i class="fa fa-comments"></i>
+                                {% include 'item/comment_count.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+                <i class="fas fa-exclamation-triangle empty-state-icon"></i>
+                <p class="empty-state-text">You don't have any posts!</p>
+            </div>
+            {% endfor %}
+            <!--/ col-lg-4 -->
+        </div>
+        <!--/ row -->
+    </div>
+    <!--/ container -->
+</section>
+<!--/ newsfeed -->
+

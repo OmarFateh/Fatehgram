@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load item_tags %}
+
+{% block title %}
+<title>Fatehgram</title>
+{% endblock title %}
+
+{% block content %}
+
+<!-- ==============================================
+Navigation Section
+=============================================== -->
+
+{% include 'navigation.html' %}
+
+<!-- ==============================================
+Navbar Second Section
+=============================================== -->
+
+{% include 'navbar.html' with nav_home='mint-green' nav_explore='clean-black' nav_upload='clean-black' nav_profile='dark-black' %}
+
+<!-- ==============================================
+News Feed Section
+=============================================== -->
+<section class="newsfeed">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <!-- trending photos -->
+                {% if trending_items %}
+                <div class="trending-box">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4>Trending Photos</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trending-box">
+                    <div class="row">
+                        {% for item in trending_items %}
+                        <div class="col-lg-6">
+                            <a href="{{ item.get_absolute_url }}"><img src="{{ item.image.url }}" class="img-responsive"
+                                    alt="Image" /></a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <!--/ col-lg-3 -->
+
+            <div class="col-lg-6">
+                {% for item in items %}
+                <div class="cardbox">
+
+                    <div class="cardbox-heading">
+                        <div class="media m-0">
+                            <div class="d-flex mr-3">
+                                <a href="{{ item.owner.userprofile.get_absolute_url }}"><img
+                                        class="img-responsive-cardbox img-circle"
+                                        src="{{ item.owner.userprofile.photo.url }}" alt="User">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <strong><a href="{{ item.owner.userprofile.get_absolute_url }}">
+                                        <p class="m-0">{{ item.owner }}</p>
+                                    </a></strong>
+
+                                <a href='{{ item.get_absolute_url }}' class="d-block w-100">
+                                    <small><span>{{ item.created_at|timesince|rounded_timesince:',' }}</span></small>
+                                </a>
+                            </div>
+                        </div>
+                        <!--/ media -->
+                    </div>
+                    <!--/ cardbox-heading -->
+
+                    <div class="cardbox-item">
+                        <div class="feed-item" data-href='{{ item.get_api_like_url }}' value='{{ item.id }}'>
+                            <img class="img-responsive" 
+                            {% if item.image %} src="{{ item.image.url }}" {% endif %} alt="MaterialImg">
+                        </div>
+                        <div class='item-tags-icon'>
+                            {% include 'item/item_tags.html' %}
+                        </div>
+                    </div>
+
+                    <div class="feed-item-bottom">
+                        <ul>
+                            <li class="pb-0">
+                                <!-- like -->
+                                <button type="button" class="feed-like btn btn-link py-0 px-0 mr-10"
+                                    data-href='{{ item.get_api_like_url }}' value='{{ item.id }}'>
+                                    {% if request.user in item.likes.all %}
+                                    <i class="fa fa-heart"></i>
+                                    {% else %}
+                                    <i class="far fa-heart"></i>
+                                    {% endif %}
+                                </button>
+
+                                <!-- comment  -->
+                                <div class="modal-comment">
+                                    <i class="fa fa-comments"></i>
+                                </div>
+                                <div class='comment_count'>
+                                    {% include 'item/comment_count.html' %}
+                                </div>
+
+                            </li>
+
+                            <li class="pb-0">
+                                <!-- bookmark  -->
+                                <button type="button" class="modal-bookmark btn btn-link py-0 px-0"
+                                    data-href='{{ item.get_api_favourite_url }}'>
+                                    {% if request.user in item.favourites.all %}
+                                    <i class="fas fa-bookmark"></i>
+                                    {% else %}
+                                    <i class="far fa-bookmark"></i>
+                                    {% endif %}
+                                </button>
+                            </li>
+
+                        </ul>
+                        <!-- item-likes-count  -->
+                        <div class="feed-item-likes-count">
+                            <button type="button" class="modal-one count-feed-like{{ item.id }} btn btn-link py-0 mr-10"
+                            value='{{ item.id }}'
+                            {% if not item.likes.count %}
+                            style="display: none;" 
+                            {% endif %}   
+                            data-href='{{ item.get_item_likes_absolute_url }}'>
+                                <span class="feed-like-count"> {{ item.likes.count }}
+                                    like{{ item.likes.count|pluralize }}
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- caption  -->
+                        {% if item.hashtags.all or item.caption %}
+                        <div class='feed_item_caption mt-5'>
+                            {% include 'home/includes/feed_item_caption.html' %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!--/ modal-meta-bottom -->
+                </div>
+                {% empty %}
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-triangle empty-state-icon"></i>
+                    <p class="empty-state-text">You don't have any feed posts!</p>
+                </div>
+                {% endfor %}
+                <!--/ cardbox -->
+            </div>
+            <!--/ col-lg-6 -->
+
+            <!-- suggestions -->
+            <div class='suggested_profiles'>
+                {% include 'home/includes/suggested_profiles.html' %}
+            </div>
+        </div>
+        <!--/ row -->
+    </div>
+    <!--/ container -->
+</section>
+<!--/ newsfeed -->
+
+<!-- Item  Modal -->
+<div class="modal fade modal-item" id="modal-item">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+<script src="{% static 'assets/js/custom/profiles/user_follow.js' %}"></script>
+<script src="{% static 'assets/js/custom/item/save_item.js' %}"></script>
+<script src="{% static 'assets/js/custom/home/feed.js' %}"></script>
+
+{% endblock scripts %}

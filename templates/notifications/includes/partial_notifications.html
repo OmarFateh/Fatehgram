@@ -1,0 +1,157 @@
+{% load item_tags %}
+{% load notification_tags %}
+
+<section class="notifications">
+    <div class="container">
+        <div class="row">
+            <div class="col-12-offset-0 col-lg-8 col-lg-offset-2">
+                <ul class="p-0">
+                    {% for notification in notifications %}
+                        <!-- follow request  -->
+                        {% if notification.notification_type == 'follow_request' %}
+                            <li>
+                                <div class="media first_child">
+                                    <a href='{{ notification.sender.get_absolute_url }}'>
+                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                    </a>  
+                                    <div class="media_body">
+                                        <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> requested to follow you.</p>
+                                        <h6>{{ notification.created_at|timesince|rounded_timesince:',' }}</h6>
+                                        <div class="btn_group">
+                                            <form id="acceptInvitation" method="POST" action="{{ notification.get_invitation_accept_absolute_url }}">
+                                                {% csrf_token %}
+                                                <input type='hidden' name='profile_pk' value='{{ notification.sender.pk }}'>
+                                                <button type="submit" class="kafe-btn kafe-btn-mint">Confirm</button>
+                                            </form>
+                                            <form id="deleteInvitation" method="POST" action="{{ notification.get_invitation_delete_absolute_url }}">
+                                                {% csrf_token %}
+                                                <input type='hidden' name='profile_pk' value='{{ notification.sender.pk }}'>
+                                                <button type="submit" class="kafe-btn kafe-btn-red">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </li>
+                        {% endif %}
+                        
+                        <!-- follow  -->
+                        {% if notification.notification_type == 'follow' %}
+                            <li>
+                                <div class="media first_child">
+                                    <a href='{{ notification.sender.get_absolute_url }}'>
+                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                    </a>  
+                                    <div class="media_body">
+                                        <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> started following you.</p>
+                                        <h6>{{ notification.created_at|timesince|rounded_timesince:',' }}</h6>
+                                    </div>
+                                    <div class="btn_group">
+                                        <button type="button" class="follow kafe-btn kafe-btn-mint"
+                                            data-href='{{ notification.sender.get_api_follow_url }}'>
+                                            {% if request.user.userprofile in notification.sender.user.followers.all %}
+                                                <span class='follow-text'>Unfollow</span>
+                                            {% elif request.user.userprofile|is_requested:notification.sender %}
+                                                <span class='follow-text'>Requested</span>
+                                            {% else %}
+                                                <span class='follow-text'>Follow</span>
+                                            {% endif %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        <!-- item tag -->
+                        {% if notification.notification_type == 'tag' %}
+                            <li>
+                                <div class="media first_child">
+                                    <a href='{{ notification.sender.get_absolute_url }}'>
+                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                    </a>    
+                                    <div class="media_body">
+                                        <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> 
+                                            tagged you in a <a href='{{ notification.item.get_absolute_url }}'><span class="emp">photo</span>.</a>
+                                        </p>
+                                        <h6>{{ notification.created_at|timesince|rounded_timesince:',' }}</h6>
+                                    </div>
+                                    <a href='{{ notification.item.get_absolute_url }}'>
+                                        <img src="{{ notification.item.image.url }}" alt="" class="img-responsive img-rounded">
+                                    </a>
+                                </div>
+                            </li>
+                        {% endif %} 
+
+                        <!-- item like -->
+                        {% if notification.notification_type == 'like' %}
+                            <li>
+                                <div class="media first_child">
+                                    <a href='{{ notification.sender.get_absolute_url }}'>
+                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                    </a>    
+                                    <div class="media_body">
+                                        <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> 
+                                            liked your <a href='{{ notification.item.get_absolute_url }}'><span class="emp">photo</span>.</a>
+                                        </p>
+                                        <h6>{{ notification.created_at|timesince|rounded_timesince:',' }}</h6>
+                                    </div>
+                                    <a href='{{ notification.item.get_absolute_url }}'>
+                                        <img src="{{ notification.item.image.url }}" alt="" class="img-responsive img-rounded">
+                                    </a>
+                                </div>
+                            </li>
+                        {% endif %} 
+                        
+                        <!-- comment -->
+                        {% if notification.notification_type == 'comment' %}
+                            <li>
+                                <div class="media first_child">
+                                    <a href='{{ notification.sender.get_absolute_url }}'>
+                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                    </a>  
+                                    <div class="media_body">
+                                        <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> 
+                                            commented: {{ notification.comment_snippt }}
+                                        </p>
+                                        <h6>{{ notification.created_at|timesince|rounded_timesince:',' }}</h6>
+                                    </div>
+                                    <a href='{{ notification.item.get_absolute_url }}'>
+                                        <img src="{{ notification.item.image.url }}" alt="" class="img-responsive img-rounded">
+                                    </a>
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        <!-- comment like -->
+                        {% if notification.notification_type == 'comment_like' %}
+                            <li>
+                                <div class="media first_child">
+                                    <a href='{{ notification.sender.get_absolute_url }}'>
+                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                    </a>  
+                                    <div class="media_body">
+                                        <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> 
+                                            liked your <a href='{{ notification.item.get_absolute_url }}'><span class="emp">comment</span>.</a>
+                                        </p>
+                                        <h6>{{ notification.created_at|timesince|rounded_timesince:',' }}</h6>
+                                    </div>
+                                    <a href='{{ notification.item.get_absolute_url }}'>
+                                        <img src="{{ notification.item.image.url }}" alt="" class="img-responsive img-rounded">
+                                    </a>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% empty %}
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle empty-state-icon"></i>
+                        <p class="empty-state-text">You don't have any notifications!</p>
+                    </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <!--/ row-->
+    </div>
+    <!--/ container -->
+</section>
+<!--/ profile -->

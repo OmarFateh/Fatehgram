@@ -1,0 +1,28 @@
+{% load item_tags %}
+
+<!-- caption  -->
+{% if item.hashtags.all or item.caption %}
+<li>
+    <div class="comment-img d-flex align-items-center">
+        <img src="{{ item.owner.userprofile.photo.url }}" class="img-responsive img-circle" alt="Image" />
+        <strong><a href="{{ item.owner.userprofile.get_absolute_url }}">{{ item.owner }}</a></strong>
+
+    </div>
+    <div class="comment-text">
+        {% if item.caption %}
+            <p>{{ item.caption }}</p>
+        {% endif %} 
+        <div class='line-height-1'>
+            {% if item.hashtags %}
+                {% for hashtag in item.hashtags.all %}
+                    <a href='{{ hashtag.get_absolute_url }}' class="hashtag">#{{ hashtag }}</a>
+                {% endfor %}
+            {% endif %}      
+        </div>   
+        <span class="date sub-text">
+            {{ item.created_at|timesince|rounded_timesince_min:',' }}
+        </span>
+
+    </div>
+</li>
+{% endif %}

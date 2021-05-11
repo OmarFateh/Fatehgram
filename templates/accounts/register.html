@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}    
+    <title>Register</title>
+{% endblock title %}
+
+{% block content %} 
+<!-- ==============================================
+Header Section
+=============================================== -->
+<section class="login">
+    <div class="container">
+        <div class="banner-content">
+        
+            <h1><i class="fa fa-smile"></i> Fatehgram</h1>
+            <form method="post" class="form-signin" data-validate-username-url="{% url 'accounts:js-validate-username' %}"
+                data-validate-email-url="{% url 'accounts:js-validate-email' %}">
+                {% csrf_token %}
+                <h3 class="form-signin-heading">Please register</h3>
+                <div class="form-group">
+                    {{ form.username }}
+                    <div class="js-validate-username-error error-message" role="alert" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.email }}
+                    <div class="js-validate-email-error error-message" role="alert" style="display: none;">
+                    </div>
+                    <div class="js-validate-email1-error error-message" role="alert" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.email2 }}
+                    <div class="js-validate-email1-error error-message" role="alert" style="display: none;">
+                    </div>
+                </div>
+                <!-- Display emails error message -->
+                {% if form.email2.errors %}
+                    {% for error in form.email2.errors %}
+                    <p class="text-align-left"><strong class="text-danger">{{ error|escape }}</strong></p>
+                    {% endfor %}
+                {% endif %}
+                <div class="form-group">
+                    {{ form.password1 }}
+                    <div class="js-validate-password1-error error-message" role="alert" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.password2 }}
+                    <div class="js-validate-password1-error error-message" role="alert" style="display: none;">
+                    </div>  
+                </div>
+                <!-- Display passwords error message -->
+                {% if form.password2.errors %}
+                    {% for error in form.password2.errors %}
+                        <p class="text-align-left"><strong class="text-danger">{{ error|escape }}</strong></p>
+                    {% endfor %}
+                {% endif %}
+                <button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="submit" id='submit-btn'>Sign Up</button>
+                <br/>
+                <a class="btn btn-dark " href="{% url 'accounts:login' %}" role="button">Already have an account? Click Here.</a>
+                <a class="btn btn-dark " href="{% url 'password_reset' %}" role="button">Forgot your password?</a>
+            </form>
+        
+        </div><!--/. banner-content -->
+    </div><!-- /.container -->
+</section> 
+{% endblock content %}
+
+{% block scripts %}
+
+<script src="{% static 'assets/js/custom/accounts/username_email_validation.js' %}"></script>
+<script src="{% static 'assets/js/custom/accounts/register.js' %}"></script>
+<script src="{% static 'assets/js/custom/accounts/passwords_validation.js' %}"></script>
+
+{% endblock scripts %}

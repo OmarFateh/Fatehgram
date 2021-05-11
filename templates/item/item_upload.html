@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load item_tags %}
+
+{% block title %}
+<title>New Post</title>
+{% endblock title %}
+
+{% block content %}
+
+<!-- ==============================================
+Navigation Section
+=============================================== -->
+
+{% include 'navigation.html' %}
+
+<!-- ==============================================
+Navbar Second Section
+=============================================== -->
+
+{% include 'navbar.html' with nav_home='dark-black' nav_explore='clean-black' nav_upload='mint-green' nav_profile='dark-black' %}
+
+<!-- ==============================================
+News Feed Section
+=============================================== -->
+<section class="upload">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="setup-picture">
+                    <form method='POST' action='.' enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <img src='#' id='uploaded' class='w-100 h-100'> <!-- Uploaded picture goes here -->
+                        <div class="picture">
+                            <input type="file" name="image" id="id_image">
+                            <i class='fa fa-camera'></i>
+                            <h3>Choose your picture</h3>
+                            <div class='clearfix'></div>
+                        </div>
+                        <textarea class="form-control no-border caption-input" rows="3" name='caption'
+                            placeholder="Type something..."></textarea>
+                        <input class="form-control no-border input-sm" type="text" name="hashtags"
+                            placeholder='Add hashtags... (add "#" before each hashtag)' />
+                        <input class="form-control no-border input-sm" type="text" name="tags" id='tags'
+                            data-url='' placeholder='Tag friends...(add "@" before each username)' />
+                        <div class="form-check">
+                            <label class="form-check-label" for="restrict_comment">Restrict Comments</label>
+                            <input type="checkbox" class="form-check-input" id="restrict_comment"
+                                name='restrict_comment'>
+                        </div>
+                        <div class="box-footer clearfix">
+                            <button type='submit' class="kafe-btn kafe-btn-mint-small pull-right btn-sm" id="upload-item">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ container -->
+</section>
+<!--/ newsfeed -->
+
+{% endblock content %}
+
+{% block scripts %}
+
+<script src="{% static 'assets/js/custom/item/item_upload.js' %}"></script>
+
+{% endblock scripts %}

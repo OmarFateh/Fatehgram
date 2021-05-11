@@ -1,0 +1,36 @@
+{% if suggested_profiles %}
+<div class="col-lg-3">
+    <div class="trending-box">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>Suggestions for you</h4>
+            </div>
+        </div>
+    </div>
+    <!-- suggestions -->
+    <div class="suggestion-box full-width">
+        <div class="suggestions-list">
+            {% for profile_obj in suggested_profiles %}
+            <div class="suggestion-body">
+                <div class="d-flex">
+                    <a href="{{ profile_obj.get_absolute_url }}">
+                        <img class="img-responsive img-circle" src="{{ profile_obj.photo.url }}" alt="Image">
+                    </a>
+                    <div class="name-box">
+                        <a href="{{ profile_obj.get_absolute_url }}">
+                            <h4>{{ profile_obj.user }}</h4>
+                        </a>
+                    </div>
+                </div>
+                
+                <span class="suggested-follow" data-href='{{ profile_obj.get_api_follow_url }}'><i
+                        class="fa fa-plus"></i>
+                </span>
+
+            </div>
+            {% endfor %}
+        </div>
+        <!--suggestions-list end-->
+    </div>
+</div>
+{% endif %}

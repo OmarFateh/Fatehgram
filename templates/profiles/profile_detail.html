@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load item_tags %}
+
+{% block title %}
+<title>@{{ profile.user.username }}</title>
+{% endblock title %}
+
+{% block content %}
+
+<!-- ==============================================
+Navigation Section
+=============================================== -->
+
+{% include 'navigation.html' %}
+
+<!-- ==============================================
+Navbar Second Section
+=============================================== -->
+{% if editable %}
+{% include 'navbar.html' with nav_home='dark-black' nav_explore='clean-black' nav_upload='clean-black' nav_profile='mint-green' %}
+{% else %}
+{% include 'navbar.html' with nav_home='dark-black' nav_explore='clean-black' nav_upload='clean-black' nav_profile='dark-black' %}
+{% endif %}
+<!-- ==============================================
+User Profile Section
+=============================================== -->
+<div class="profile-detail">
+    {% include 'profiles/includes/partial_profile_update.html' %}
+</div>
+<!--/ profile -->
+
+<!-- ==============================================
+News Feed Section
+=============================================== -->
+{% if private_account %}
+<div class='private-account'>
+    <strong>This Account is Private</strong>
+    <p>Follow to see his photos and videos.</p>
+</div>
+{% else %}
+<div class='wrapper'>
+    <div class="container">
+
+        <div class="nav-tabss">
+            <ul class="tabs" data-tabgroup="first-tab-group">
+                <li><a href="#tab1" class="active">POSTS</a></li>
+                {% if editable %}
+                <li><a href="#tab2">SAVED</a></li>
+                {% endif %}
+                <li><a href="#tab3">TAGGED</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<section id="first-tab-group" class="tabgroup">
+    <div id="tab1">
+        {% include 'profiles/includes/partial_profile_posts.html' %}
+    </div>
+    <div id="tab2">
+        {% include 'profiles/includes/partial_profile_saved.html' %}
+    </div>
+    <div id="tab3">
+        {% include 'profiles/includes/partial_profile_tagged.html' %}
+    </div>
+</section>
+
+{% endif %}
+
+<!-- Profile Modal -->
+<div class="modal fade modal-profile" id="modal-profile">
+    <div class="modal-dialog"> 
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+<script src="{% static 'assets/js/custom/accounts/username_email_validation.js' %}"></script>
+<script src="{% static 'assets/js/custom/profiles/user_profile.js' %}"></script>
+<script src="{% static 'assets/js/custom/profiles/user_follow.js' %}"></script>
+
+{% endblock scripts %}

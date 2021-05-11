@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel">Edit Post</h4>
+</div>
+<form id="updateItem" method="POST" action="{{ item.get_edit_absolute_url }}">
+    {% csrf_token %}
+    <div class="modal-body">
+        <input class="form-control" id="form-id" type="hidden" name="formId" />
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ item_update_form.caption.label }}</strong></div>
+            {{ item_update_form.caption }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ item_update_form.hashtags.label }}</strong></div>
+            {{ item_update_form.hashtags }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ item_update_form.tags.label }}</strong></div>
+            {{ item_update_form.tags }}
+        </div>
+        <div class="form-group">
+            <div class="mb-5"><strong>{{ item_update_form.restrict_comment.label }}</strong> {{ item_update_form.restrict_comment }}</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" onclick="$('.modal-item').modal('hide');">Cancel</button>
+    </div>
+</form>

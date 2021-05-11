@@ -1,0 +1,35 @@
+<div class="menu-category">
+    <ul class="menu d-flex align-items-center mb-0 px-0">
+        <li class="current-menu-item"><span>{{ profile.user.items.count }}
+                post{{ profile.user.items.count|pluralize }}</span>
+        </li>
+        {% if private_account %}
+        <li class="current-menu-item">
+            <span>
+                {{ profile.get_follower.count }} follower{{ profile.get_follower.count|pluralize }} 
+            </span>
+        </li>
+        <li class="current-menu-item">
+            <span>
+                {{ profile.following.count }} following 
+            </span>
+        </li>
+        {% else %}
+        <li>
+            <button type="button"
+                class="profile-followers btn btn-link"
+                data-href="{{ profile.get_followers_absolute_url }}">
+                {{ profile.get_follower.count }} follower{{ profile.get_follower.count|pluralize }}
+            </button>
+        </li>
+        <li>
+            <button type="button"
+                class="profile-following btn btn-link"
+                data-href="{{ profile.get_following_absolute_url }}">
+                {{ profile.following.count }} following
+            </button>
+        </li>
+        {% endif %}
+        
+    </ul>
+</div>

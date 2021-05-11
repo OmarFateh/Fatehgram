@@ -1,0 +1,101 @@
+<!-- <header class="tr-header">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'home:feed' %}"><i class="fab fa-instagram"></i> Fatehgram</a>
+            </div>
+            <div class="navbar-left">
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                    </ul>
+                </div>
+            </div>
+            <div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <div class="search-dashboard" style="position: relative;">
+                            <form method='GET' id="search-form" data-href='{% url "profiles:search" %}'>
+                                <input class="search-here" placeholder="Search here" type="text" id='search'
+                                    name='search' autocomplete="off">
+                                <i class="fa fa-search" style="position: absolute; top: -5px; right: 15px;"></i>
+                            </form>
+                            <div class="custom-search-dropdown" style="display: none;"></div>
+                        </div>
+                    </li>
+                    <li class="dropdown notification-list">
+                        <a class="nav-link dropdown-toggle" href="{% url 'notifications:show-notifications' %}"
+                            role="button" aria-haspopup="false" aria-expanded="false">
+                            <i class="fa fa-bell noti-icon"></i>
+                            {% if count_notifications %}
+                            <span class="badge badge-danger badge-pill noti-icon-badge">{{ count_notifications }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+
+                    <li class="dropdown mega-avatar">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                            <span class="avatar w-32"><img src="{{ request.user.userprofile.photo.url }}"
+                                    class="img-resonsive img-circle" width="25" height="25" alt="..."></span>
+                            <span class="hidden-xs">
+                                {{ request.user }}
+                            </span>
+                        </a>
+                        <div class="dropdown-menu w dropdown-menu-scale pull-right">
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item"
+                                href="{{ request.user.userprofile.get_absolute_url }}"><span>Profile</span></a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'accounts:logout' %}">Log Out</a>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header> -->
+
+<div class="main-navbar d-flex align-items-center justify-content-between p-15">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'home:feed' %}">
+        <i class="fab fa-instagram mr-5"></i>
+        <span>Fatehgram</span>
+    </a>
+    <div class="d-flex align-items-center">
+        <div class="d-none d-md-flex mr-15" id="search-form" data-href='{% url "profiles:search" %}'>
+            <input type="text" id='search' class="form-control search border-radius-50px" placeholder="Search here">
+            <div class="custom-search-dropdown" style="display: none;"></div>
+        </div>
+        <a class="notification-list line-height-1 mr-5" href="{% url 'notifications:show-notifications' %}">
+            <i class="fa fa-bell noti-icon"></i>
+            {% if count_notifications %}
+            <span class="badge badge-danger badge-pill noti-icon-badge">{{ count_notifications }}</span>
+            {% endif %}
+        </a>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle d-flex align-items-center" data-toggle="dropdown" aria-expanded="true">
+                <span class="w-32 mr-5">
+                    <img src="{{ request.user.userprofile.photo.url }}" class="img-resonsive img-circle" width="25"
+                        height="25" alt="">
+                </span>
+                <span class="font-weight-400">
+                    {{ request.user }}
+                </span>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ request.user.userprofile.get_absolute_url }}"><span>Profile</span></a>
+                <a class="dropdown-item" href="{% url 'accounts:logout' %}">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--for mobile screen-->
+<div class="d-flex d-md-none m-15 mt-0">
+    <input type="text" class="form-control search" placeholder="Search here">
+</div>

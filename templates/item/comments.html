@@ -1,0 +1,27 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load item_tags %}
+
+{% if not item.restrict_comment %}
+<li>
+    <div class="comment-body">
+        <form class="comment_form" action="." id='comment-form' method='POST'>
+            {% csrf_token %}
+            <input type='hidden' name='item_id' value='{{ item.id }}'>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        {{ comment_form }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default post-btn">Post</button>
+            </div>
+        </form>
+    </div>
+    <!--/ comment-body -->
+</li>
+{% else %}
+    <p class='restrict-comments'>Comments are turned off for this post</p>
+{% endif %}

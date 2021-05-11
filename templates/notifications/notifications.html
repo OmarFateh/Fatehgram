@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load item_tags %}
+
+{% block title %}
+<title>Notifications</title>
+{% endblock title %}
+
+{% block content %}
+
+<!-- ==============================================
+Navigation Section
+=============================================== -->
+
+{% include 'navigation.html' %}
+
+<!-- ==============================================
+Navbar Second Section
+=============================================== -->
+
+{% include 'navbar.html' with nav_home='dark-black' nav_explore='clean-black' nav_upload='clean-black' nav_profile='dark-black' %}
+
+<!-- ==============================================
+News Feed Section
+=============================================== -->
+<div class='partial_notifications'>
+    {% include 'notifications/includes/partial_notifications.html' %}
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+    <script src="{% static 'assets/js/custom/profiles/user_follow.js' %}"></script>
+    <script src="{% static 'assets/js/custom/notifications/notifications.js' %}"></script>
+
+{% endblock scripts %}
