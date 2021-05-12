@@ -178,9 +178,9 @@ class UserProfile(BaseTimestamp):
         super(UserProfile, self).save(*args, **kwargs) 
         SIZE = 250, 250
         if self.photo:
-            pic = Image.open(self.photo.path)
+            pic = Image.open(self.photo.name)
             pic.thumbnail(SIZE, Image.LANCZOS)
-            pic.save(self.photo.path)    
+            pic.save(self.photo.name)    
 
     @property
     def get_absolute_url(self):
