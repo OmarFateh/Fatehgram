@@ -16,6 +16,7 @@ $(document).ready(function () {
     // Search profiles by username
     $(document).on("keyup", ".search", function () {
         var search = $(this).val();
+        console.log($('#search-form').attr('data-href'))
         $.ajax({
             url: $('#search-form').attr('data-href'),
             type: 'GET',
@@ -26,9 +27,15 @@ $(document).ready(function () {
                 var div_data = "";
                 if (search){
                     if (json_data.length != 0){
+                        console.log(search)
                         for (key in json_data) {
                             div_data += "<a href='" + json_data[key]['profile_url'] + "' >";
-                            div_data += "<img src='" + json_data[key]['photo'] + "'  alt=''>";
+                            if (json_data[key]['photo']){
+                                div_data += "<img src='" + json_data[key]['photo'] + "'  alt=''>";
+                            }
+                            else{
+                                div_data += "<img src=''  alt=''>";
+                            }
                             div_data += "<span>" + json_data[key]['username'] + "</span>";
                             div_data +="</a>";
                         }

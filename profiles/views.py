@@ -117,9 +117,11 @@ def search_profiles(request):
     """
     # get entered value in search input field.
     q = request.GET.get('search')
+    print(q)
     data = dict()
     # filter profiles by username, ordered alphabetically by username.
     profiles_list_data = UserProfile.objects.get_profiles_list_data(q)
+    print(profiles_list_data)
     return JsonResponse(json.dumps(profiles_list_data), content_type='application/json', safe=False)
    
 

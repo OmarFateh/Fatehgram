@@ -139,12 +139,19 @@ class UserProfileManager(models.Manager):
         profiles_list_data = []
         if profiles_qs.exists():
             for profile in profiles_qs:
-                profiles_data = {
-                    'id':profile.user.id, 
-                    'username':profile.user.username, 
-                    'photo':profile.photo.url,
-                    'profile_url':profile.get_absolute_url,
-                }
+                if profile.photo:
+                    profiles_data = {
+                        'id':profile.user.id, 
+                        'username':profile.user.username, 
+                        'photo':profile.photo.url,
+                        'profile_url':profile.get_absolute_url,
+                    }
+                else:
+                    profiles_data = {
+                        'id':profile.user.id, 
+                        'username':profile.user.username,
+                        'profile_url':profile.get_absolute_url,
+                    }                        
                 profiles_list_data.append(profiles_data)
         return profiles_list_data     
     

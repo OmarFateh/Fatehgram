@@ -8,10 +8,6 @@
     {% csrf_token %}
     <div class="modal-body">
         <input class="form-control" id="form-id" type="hidden" name="formId" />
-        <div class="js-validate-username-error" role="alert">
-        </div>
-        <div class="js-validate-email-error" role="alert">
-        </div>
         <div class="form-group">
             <div class="mb-5"><strong>{{ user_form.username.label }}</strong><span>*</span></div>
             {{ user_form.username }}
@@ -46,7 +42,9 @@
         {% endif %}
         <div class="form-group">
             <div class="mb-5"><strong>{{ profile_form.photo.label }}</strong></div>
+            {% if profile_form.photo.value %}
             <span>Currently: </span><a href="{{ profile_form.photo.value.url }}">{{ profile_form.photo.value }}</a><br/>
+            {% endif %}
             <span>Change: </span>{{ profile_form.photo }}
         </div>
         <!-- Display photo error message -->
