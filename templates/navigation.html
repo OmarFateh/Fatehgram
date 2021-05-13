@@ -1,3 +1,4 @@
+{% load static %}
 <!-- <header class="tr-header">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -41,8 +42,10 @@
 
                     <li class="dropdown mega-avatar">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                            {% if request.user.userprofile.photo %}
                             <span class="avatar w-32"><img src="{{ request.user.userprofile.photo.url }}"
                                     class="img-resonsive img-circle" width="25" height="25" alt="..."></span>
+                            {% endif %}        
                             <span class="hidden-xs">
                                 {{ request.user }}
                             </span>
@@ -81,7 +84,13 @@
         <div class="dropdown">
             <a href="#" class="dropdown-toggle d-flex align-items-center" data-toggle="dropdown" aria-expanded="true">
                 <span class="w-32 mr-5">
-                    <img src="{{ request.user.userprofile.photo.url }}" class="img-resonsive img-circle" width="25"
+                    <img 
+                    {% if request.user.userprofile.photo %}
+                    src="{{ request.user.userprofile.photo.url }}" 
+                    {% else %}
+                    src="{% static 'user_default.jpg' %}"
+                    {% endif %}
+                    class="img-resonsive img-circle" width="25"
                         height="25" alt="">
                 </span>
                 <span class="font-weight-400">

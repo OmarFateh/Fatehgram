@@ -60,7 +60,12 @@ News Feed Section
                             <div class="d-flex mr-3">
                                 <a href="{{ item.owner.userprofile.get_absolute_url }}"><img
                                         class="img-responsive-cardbox img-circle"
-                                        src="{{ item.owner.userprofile.photo.url }}" alt="User">
+                                        {% if item.owner.userprofile.photo %}
+                                        src="{{ item.owner.userprofile.photo.url }}"
+                                        {% else %}
+                                        src="{% static 'user_default.jpg' %}" 
+                                        {% endif %} 
+                                        alt="User">
                                 </a>
                             </div>
                             <div class="media-body">

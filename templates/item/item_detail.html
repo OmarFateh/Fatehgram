@@ -49,7 +49,12 @@ Modal Section
                                         <div class='item-header'>
                                             <a href="{{ item.owner.userprofile.get_absolute_url }}"><img
                                                     class="img-responsive img-circle"
-                                                    src="{{ item.owner.userprofile.photo.url }}" alt="Image" /></a>
+                                                    {% if item.owner.userprofile.photo %}
+                                                    src="{{ item.owner.userprofile.photo.url }}"
+                                                    {% else %}
+                                                    src="{% static 'user_default.jpg' %}" 
+                                                    {% endif %}  
+                                                    alt="Image" /></a>
                                             <strong><a
                                                     href="{{ item.owner.userprofile.get_absolute_url }}">{{ item.owner }}
                                                 </a></strong>

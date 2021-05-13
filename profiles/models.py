@@ -155,7 +155,7 @@ class UserProfile(BaseTimestamp):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     following = models.ManyToManyField(User, related_name='followers', blank=True, through=UserFollow)
-    photo = models.ImageField(upload_to=user_image, default='user_default.jpg')
+    photo = models.ImageField(upload_to=user_image)
     bio = models.CharField(max_length=255, blank=True, null=True)
     facebook = models.URLField(blank=True, null=True)
     twitter = models.URLField(blank=True, null=True)
@@ -173,14 +173,14 @@ class UserProfile(BaseTimestamp):
         # Return user username.
         return self.user.username          
 
-    def save(self, *args, **kwargs):
-        # Override the save method and resize the profile photo 250 x 250 ,before saving. 
-        super(UserProfile, self).save(*args, **kwargs) 
-        SIZE = 250, 250
-        if self.photo:
-            pic = Image.open(self.photo.name)
-            pic.thumbnail(SIZE, Image.LANCZOS)
-            pic.save(self.photo.name)    
+    # def save(self, *args, **kwargs):
+    #     # Override the save method and resize the profile photo 250 x 250 ,before saving. 
+    #     super(UserProfile, self).save(*args, **kwargs) 
+    #     SIZE = 250, 250
+    #     if self.photo:
+    #         pic = Image.open(self.photo.name)
+    #         pic.thumbnail(SIZE, Image.LANCZOS)
+    #         pic.save(self.photo.name)    
 
     @property
     def get_absolute_url(self):

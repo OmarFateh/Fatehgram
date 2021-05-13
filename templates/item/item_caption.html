@@ -1,10 +1,17 @@
+{% load static %}
 {% load item_tags %}
 
 <!-- caption  -->
 {% if item.hashtags.all or item.caption %}
 <li>
     <div class="comment-img d-flex align-items-center">
-        <img src="{{ item.owner.userprofile.photo.url }}" class="img-responsive img-circle" alt="Image" />
+        <img 
+        {% if item.owner.userprofile.photo %}
+        src="{{ item.owner.userprofile.photo.url }}" 
+        {% else %}
+        src="{% static 'user_default.jpg' %}" 
+        {% endif %} 
+        class="img-responsive img-circle" alt="Image" />
         <strong><a href="{{ item.owner.userprofile.get_absolute_url }}">{{ item.owner }}</a></strong>
 
     </div>

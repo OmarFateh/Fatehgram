@@ -1,3 +1,4 @@
+{% load static %}
 {% load crispy_forms_tags %}
 {% load item_tags %}
 
@@ -7,7 +8,13 @@
     <div class="d-flex align-items-center justify-content-between">
         <div class="comment-img d-flex align-items-center">
             <div class="h-100">
-                <img src="{{ comment.owner.userprofile.photo.url }}" class="img-responsive img-circle mr-2"
+                <img 
+                {% if comment.owner.userprofile.photo %}
+                src="{{ comment.owner.userprofile.photo.url }}"
+                {% else %}
+                src="{% static 'user_default.jpg' %}" 
+                {% endif %}  
+                class="img-responsive img-circle mr-2"
                     alt="Image" />
             </div>
             <strong class="d-flex align-items-center py-0 line-height-1"><a
@@ -82,7 +89,13 @@
         <div class="d-flex align-items-center justify-content-between">
             <div class="comment-img d-flex align-items-center">
                 <div class="h-100">
-                    <img src="{{ reply.owner.userprofile.photo.url }}" class="img-responsive img-circle" alt="Image" />
+                    <img 
+                    {% if reply.owner.userprofile.photo %}
+                    src="{{ reply.owner.userprofile.photo.url }}" 
+                    {% else %}
+                    src="{% static 'user_default.jpg' %}" 
+                    {% endif %} 
+                    class="img-responsive img-circle" alt="Image" />
                 </div>
                 <strong class="d-flex align-items-center py-0 line-height-1">
                     <a href="{{ reply.owner.userprofile.get_absolute_url }}">{{ reply.owner }}</a>
