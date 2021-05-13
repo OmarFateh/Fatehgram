@@ -1,10 +1,18 @@
+{% load static %}
+
 <section class="user-profile">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
                 <div class="post-content">
                     <div class="author-post text-center">
-                        <img class="img-fluid img-circle" src="{{ profile.photo.url }}" alt="Image">
+                        <img class="img-fluid img-circle"
+                        {% if profile.photo %} 
+                        src="{{ profile.photo.url }}"
+                        {% else %}
+                        src="{% static 'user_default.jpg' %}"
+                        {% endif %} 
+                        alt="Image">
                     </div><!-- /author -->
                 </div><!-- /.post-content -->
             </div><!-- /col-sm-12 -->
