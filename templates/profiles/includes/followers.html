@@ -1,3 +1,4 @@
+{% load static %}
 {% load notification_tags %}
 
 <div class="col-lg-8 col-lg-offset-2">
@@ -10,7 +11,13 @@
             {% for follower in followers %}
             <div class="followers-body">
                 <a href='{{ follower.get_absolute_url }}'>
-                    <img class="img-responsive img-circle" src="{{ follower.photo.url }}" alt="">
+                    <img class="img-responsive img-circle"
+                    {% if follower.photo %} 
+                    src="{{ follower.photo.url }}" 
+                    {% else %}
+                    src="{% static 'user_default.jpg' %}" 
+                    {% endif %}
+                    alt="">
                     <div class="name-box">
                         <h4>{{ follower.user.username }}</h4>
                         {% if follower.user.first_name or follower.user.last_name %}

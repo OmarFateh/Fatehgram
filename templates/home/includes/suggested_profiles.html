@@ -1,3 +1,5 @@
+{% load static %}
+
 {% if suggested_profiles %}
 <div class="col-lg-3">
     <div class="trending-box">
@@ -14,7 +16,13 @@
             <div class="suggestion-body">
                 <div class="d-flex">
                     <a href="{{ profile_obj.get_absolute_url }}">
-                        <img class="img-responsive img-circle" src="{{ profile_obj.photo.url }}" alt="Image">
+                        <img class="img-responsive img-circle"
+                        {% if profile_obj.photo %} 
+                        src="{{ profile_obj.photo.url }}"
+                        {% else %}
+                        src="{% static 'user_default.jpg' %}" 
+                        {% endif %}  
+                        alt="Image">
                     </a>
                     <div class="name-box">
                         <a href="{{ profile_obj.get_absolute_url }}">

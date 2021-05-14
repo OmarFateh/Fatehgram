@@ -1,3 +1,4 @@
+{% load static %}
 {% load item_tags %}
 {% load notification_tags %}
 
@@ -12,7 +13,13 @@
                             <li>
                                 <div class="media first_child">
                                     <a href='{{ notification.sender.get_absolute_url }}'>
-                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                        <img 
+                                        {% if notification.sender.photo %} 
+                                        src="{{ notification.sender.photo.url }}"
+                                        {% else %}
+                                        src="{% static 'user_default.jpg' %}" 
+                                        {% endif %} 
+                                        alt="" class="img-responsive img-circle">
                                     </a>  
                                     <div class="media_body">
                                         <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> requested to follow you.</p>
@@ -40,7 +47,13 @@
                             <li>
                                 <div class="media first_child">
                                     <a href='{{ notification.sender.get_absolute_url }}'>
-                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                        <img 
+                                        {% if notification.sender.photo %}
+                                        src="{{ notification.sender.photo.url }}"
+                                        {% else %}
+                                        src="{% static 'user_default.jpg' %}" 
+                                        {% endif %}  
+                                        alt="" class="img-responsive img-circle">
                                     </a>  
                                     <div class="media_body">
                                         <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> started following you.</p>
@@ -67,7 +80,13 @@
                             <li>
                                 <div class="media first_child">
                                     <a href='{{ notification.sender.get_absolute_url }}'>
-                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                        <img 
+                                        {% if notification.sender.photo %}
+                                        src="{{ notification.sender.photo.url }}"
+                                        {% else %}
+                                        src="{% static 'user_default.jpg' %}" 
+                                        {% endif %} 
+                                        alt="" class="img-responsive img-circle">
                                     </a>    
                                     <div class="media_body">
                                         <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> 
@@ -87,7 +106,13 @@
                             <li>
                                 <div class="media first_child">
                                     <a href='{{ notification.sender.get_absolute_url }}'>
-                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                        <img 
+                                        {% if notification.sender.photo %}
+                                        src="{{ notification.sender.photo.url }}"
+                                        {% else %}
+                                        src="{% static 'user_default.jpg' %}" 
+                                        {% endif %} 
+                                        alt="" class="img-responsive img-circle">
                                     </a>    
                                     <div class="media_body">
                                         <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> 
@@ -107,7 +132,13 @@
                             <li>
                                 <div class="media first_child">
                                     <a href='{{ notification.sender.get_absolute_url }}'>
-                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                        <img 
+                                        {% if notification.sender.photo %}
+                                        src="{{ notification.sender.photo.url }}"
+                                        {% else %}
+                                        src="{% static 'user_default.jpg' %}" 
+                                        {% endif %} 
+                                        alt="" class="img-responsive img-circle">
                                     </a>  
                                     <div class="media_body">
                                         <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> 
@@ -127,7 +158,13 @@
                             <li>
                                 <div class="media first_child">
                                     <a href='{{ notification.sender.get_absolute_url }}'>
-                                        <img src="{{ notification.sender.photo.url }}" alt="" class="img-responsive img-circle">
+                                        <img 
+                                        {% if notification.sender.photo %}
+                                        src="{{ notification.sender.photo.url }}"
+                                        {% else %}
+                                        src="{% static 'user_default.jpg' %}" 
+                                        {% endif %} 
+                                        alt="" class="img-responsive img-circle">
                                     </a>  
                                     <div class="media_body">
                                         <p><a href='{{ notification.sender.get_absolute_url }}'><b>{{ notification.sender.user.username }}</b></a> 
