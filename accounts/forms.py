@@ -82,21 +82,23 @@ class EmailValidationOnForgotPassword(PasswordResetForm):
             raise forms.ValidationError("Your email was entered incorrectly. Please enter it again.")
         return email
 
+
 class PasswordFieldsOnForgotPassword(SetPasswordForm):
     """
     Override set password form password fields.
     """
     new_password1 = forms.CharField(
         label='',
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class':'form-control js-validate-password1', 'placeholder':"New Password"}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class':'form-control js-validate-password1', 'id':'id_password1', 'placeholder':"New Password", 'required':True}),
         strip=False,
         # help_text=password_validation.password_validators_help_text_html(),
     )
     new_password2 = forms.CharField(
         label='',
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class':'form-control js-validate-password2', 'placeholder':"Confirm Password"}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class':'form-control js-validate-password2', 'id':'id_password2', 'placeholder':"Confirm Password", 'required':True}),
     )
+
 
 class PasswordFieldsOnChangePassword(PasswordChangeForm):
     """
@@ -105,17 +107,17 @@ class PasswordFieldsOnChangePassword(PasswordChangeForm):
     old_password = forms.CharField(
         label='',
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'autofocus': True, 'class':'form-control', 'placeholder':"Old Password"}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'autofocus': True, 'class':'form-control', 'placeholder':"Old Password", 'required':True}),
     )
     new_password1 = forms.CharField(
         label='',
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class':'form-control js-validate-password1', 'placeholder':"New Password"}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class':'form-control js-validate-password1', 'id':'id_password1', 'placeholder':"New Password", 'required':True}),
         strip=False,
         # help_text=password_validation.password_validators_help_text_html(),
     )
     new_password2 = forms.CharField(
         label='',
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class':'form-control js-validate-password2', 'placeholder':"Confirm Password"}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class':'form-control js-validate-password2', 'id':'id_password2', 'placeholder':"Confirm Password", 'required':True}),
     )
     

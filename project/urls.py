@@ -19,6 +19,7 @@ from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
+from accounts.decorators import unauthenticated_user
 from accounts.forms import (
         EmailValidationOnForgotPassword, 
         PasswordFieldsOnForgotPassword, 
@@ -47,16 +48,16 @@ urlpatterns = [
     # 3- Link to password reset form in email     // PasswordResetConfirmView.as_view() 
     # 4- password successfully changed message    // PasswordResetCompleteView.as_view()
 
-    path('password/reset/', auth_views.PasswordResetView.as_view(
+    path('password/reset/', unauthenticated_user(auth_views.PasswordResetView.as_view(
                                 template_name='accounts/password_reset.html',
-                                form_class=EmailValidationOnForgotPassword,),
+                                form_class=EmailValidationOnForgotPassword,)),
                                 name='password_reset'),
-    path('password/reset/sent/', auth_views.PasswordResetDoneView.as_view(template_name='accounts/password_reset_sent.html',), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+    path('password/reset/sent/', unauthenticated_user(auth_views.PasswordResetDoneView.as_view(template_name='accounts/password_reset_sent.html',)), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', unauthenticated_user(auth_views.PasswordResetConfirmView.as_view(
                                 template_name='accounts/password_reset_form.html',
-                                form_class=PasswordFieldsOnForgotPassword,),
+                                form_class=PasswordFieldsOnForgotPassword,)),
                                 name='password_reset_confirm'),
-    path('password/reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='accounts/password_reset_done.html',), name='password_reset_complete'),
+    path('password/reset/complete/', unauthenticated_user(auth_views.PasswordResetCompleteView.as_view(template_name='accounts/password_reset_done.html',)), name='password_reset_complete'),
 
     # Password change
     path('password/change/', auth_views.PasswordChangeView.as_view(
