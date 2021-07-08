@@ -83,8 +83,12 @@ def user_login(request):
         user = authenticate(username=username_email, password=password)
         # Credentials are correct.
         if user:
-            login(request, user) 
-            return redirect('/') 
+            login(request, user)
+            next_url = request.GET.get('next')
+            if next_url:
+                return redirect(next_url)
+            else:
+                return redirect('/') 
         else:
             # Display error message.
             messages.error(request, 'Username or Email is incorrect.', extra_tags='login')
